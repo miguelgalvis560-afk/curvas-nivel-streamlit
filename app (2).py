@@ -45,6 +45,7 @@ figura = st.sidebar.selectbox(
 # Asignar expresión según la figura
 if figura == "Personalizada":
     expr = st.text_input("Escribe tu función en términos de x y y:", st.session_state.expr)
+    st.session_state.expr = expr  # 🔹 Guardar solo si es personalizada
 else:
     if figura == "Paraboloide circular: z = x² + y²":
         expr = "x**2 + y**2"
@@ -60,8 +61,8 @@ else:
         expr = "np.sqrt(x**2 + y**2 - 1)"
     elif figura == "Hiperboloide de dos hojas: z = sqrt(x² + y² + 1)":
         expr = "np.sqrt(x**2 + y**2 + 1)"
-
-st.session_state.expr = expr
+    
+    st.session_state.expr = expr  # 🔹 Guardar solo si viene de una figura predefinida
 
 # -------------------------
 # Generar malla
