@@ -24,44 +24,51 @@ def get_function(expr):
 # -------------------------
 st.title("Visualizador 3D y Curvas de Nivel 📊")
 
-# Caja de texto editable
-expr = st.text_input("Escribe tu función en términos de x y y:", st.session_state.expr)
-st.session_state.expr = expr  # sincronizar con lo que escriba el usuario
-
 # -------------------------
-# Teclado matemático
+# Lista de funciones comunes
 # -------------------------
-st.write("### Teclado Matemático")
+st.sidebar.title("Figuras comunes")
+figura = st.sidebar.selectbox(
+    "Selecciona una figura:",
+    [
+        "Personalizada",
+        "Paraboloide circular: z = x² + y²",
+        "Paraboloide hiperbólico (silla de montar): z = x² - y²",
+        "Esfera: z = sqrt(25 - x² - y²)",
+        "Cilindro circular: z = sqrt(25 - x²)",
+        "Cilindro elíptico: z = sqrt(25 - (x²/9) - (y²/4))",
+        "Hiperboloide de una hoja: z = sqrt(x² + y² - 1)",
+        "Hiperboloide de dos hojas: z = sqrt(x² + y² + 1)"
+    ]
+)
 
-cols = st.columns(6)
-buttons = [
-    "x", "y", "+", "-", "*", "/",
-    "(", ")", "^", "√", "sin", "cos",
-    "tan", "exp", "log", "pi", "np", ","
-]
+# Asignar expresión según la figura
+if figura == "Personalizada":
+    expr = st.text_input("Escribe tu función en términos de x y y:", st.session_state.expr)
+else:
+    if figura == "Paraboloide circular: z = x² + y²":
+        expr = "x**2 + y**2"
+    elif figura == "Paraboloide hiperbólico (silla de montar): z = x**2 - y**2"
+:
+        expr = "x**2 - y**2"
+    elif figura == "Esfera: z = sqrt(25 - x² - y²)":
+        expr = "np.sqrt(25 - x**2 - y**2)"
+    elif figura == "Cilindro circular: z = sqrt(25 - x²)":
+        expr = "np.sqrt(25 - x**2)"
+    elif figura == "Cilindro elíptico: z = sqrt(25 - (x²/9) - (y²/4))":
+        expr = "np.sqrt(25 - (x**2/9) - (y**2/4))"
+    elif figura == "Hiperboloide de una hoja: z = sqrt(x² + y² - 1)":
+        expr = "np.sqrt(x**2 + y**2 - 1)"
+    elif figura == "Hiperboloide de dos hojas: z = sqrt(x² + y² + 1)":
+        expr = "np.sqrt(x**2 + y**2 + 1)"
 
-for i, b in enumerate(buttons):
-    if cols[i % 6].button(b):
-        if b == "√":
-            st.session_state.expr += "np.sqrt("
-        elif b in ["sin", "cos", "tan", "exp", "log"]:
-            st.session_state.expr += f"np.{b}("
-        elif b == "^":
-            st.session_state.expr += "**"
-        elif b == "pi":
-            st.session_state.expr += "np.pi"
-        elif b == "np":
-            st.session_state.expr += "np."
-        else:
-            st.session_state.expr += b
-        # refrescar la página para actualizar la caja de texto
-        st.experimental_rerun()
+st.session_state.expr = expr
 
 # -------------------------
 # Generar malla
 # -------------------------
-x = np.linspace(-10, 10, 100)
-y = np.linspace(-10, 10, 100)
+x = np.linspace(-10, 10, 200)
+y = np.linspace(-10, 10, 200)
 X, Y = np.meshgrid(x, y)
 
 f = get_function(st.session_state.expr)
@@ -83,7 +90,6 @@ if view == "3D":
             zaxis_title="Eje Z",
             xaxis=dict(range=[-10, 10]),
             yaxis=dict(range=[-10, 10]),
-            zaxis=dict(range=[np.nanmin(Z), np.nanmax(Z)])
         ),
         width=800, height=600
     )
