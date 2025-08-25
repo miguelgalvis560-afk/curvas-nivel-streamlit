@@ -3,13 +3,19 @@ import numpy as np
 import plotly.graph_objects as go
 
 # -------------------------
+# Inicializar session_state
+# -------------------------
+if "expr" not in st.session_state:
+    st.session_state.expr = "x**2 + y**2"
+
+# -------------------------
 # Funciones matemáticas
 # -------------------------
 def get_function(expr):
     def func(x, y):
         try:
             return eval(expr, {"x": x, "y": y, "np": np})
-        except:
+        except Exception:
             return np.nan
     return func
 
@@ -18,8 +24,9 @@ def get_function(expr):
 # -------------------------
 st.title("Visualizador 3D y Curvas de Nivel 📊")
 
-# Caja de texto de la fórmula
-expr = st.text_input("Escribe tu función en términos de x y y:", "x**2 + y**2", key="expr")
+# Caja de texto editable
+expr = st.text_input("Escribe tu función en términos de x y y:", st.session_state.expr)
+st.session_state.expr = expr  # sincronizar con lo que escriba el usuario
 
 # -------------------------
 # Teclado matemático
@@ -47,6 +54,8 @@ for i, b in enumerate(buttons):
             st.session_state.expr += "np."
         else:
             st.session_state.expr += b
+        # refrescar la página para actualizar la caja de texto
+        st.experimental_rerun()
 
 # -------------------------
 # Generar malla
@@ -88,6 +97,7 @@ elif view == "Curvas de Nivel (2D)":
     )
 
 st.plotly_chart(fig, use_container_width=True)
+
 
 
 
