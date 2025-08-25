@@ -1,118 +1,93 @@
 import streamlit as st
 import numpy as np
 import plotly.graph_objects as go
-import math
 
-st.set_page_config(page_title="Visualizador de Superficies", layout="wide")
+# -------------------------
+# Funciones matemáticas
+# -------------------------
+def get_function(expr):
+    def func(x, y):
+        try:
+            return eval(expr, {"x": x, "y": y, "np": np})
+        except:
+            return np.nan
+    return func
 
-# --- Funciones corregidas ---
-def paraboloide(x, y):
-    return x**2 + y**2
+# -------------------------
+# Interfaz
+# -------------------------
+st.title("Visualizador 3D y Curvas de Nivel 📊")
 
-def hiperboloide(x, y):
-    return x**2 - y**2
+# Caja de texto de la fórmula
+expr = st.text_input("Escribe tu función en términos de x y y:", "x**2 + y**2", key="expr")
 
-def cono(x, y):
-    return np.sqrt(x**2 + y**2)
+# -------------------------
+# Teclado matemático
+# -------------------------
+st.write("### Teclado Matemático")
 
-def cilindro(x, y):
-    r = 5
-    z2 = r**2 - x**2
-    z2[z2 < 0] = np.nan
-    return np.sqrt(z2)
+cols = st.columns(6)
+buttons = [
+    "x", "y", "+", "-", "*", "/",
+    "(", ")", "^", "√", "sin", "cos",
+    "tan", "exp", "log", "pi", "np", ","
+]
 
-def cilindro_eliptico(x, y):
-    a, b, h = 3, 2, 5
-    inside = 1 - (x/a)**2 - (y/b)**2
-    inside[inside < 0] = np.nan
-    return np.sqrt(inside) * h
+for i, b in enumerate(buttons):
+    if cols[i % 6].button(b):
+        if b == "√":
+            st.session_state.expr += "np.sqrt("
+        elif b in ["sin", "cos", "tan", "exp", "log"]:
+            st.session_state.expr += f"np.{b}("
+        elif b == "^":
+            st.session_state.expr += "**"
+        elif b == "pi":
+            st.session_state.expr += "np.pi"
+        elif b == "np":
+            st.session_state.expr += "np."
+        else:
+            st.session_state.expr += b
 
-# Diccionario de funciones
-funciones = {
-    "Paraboloide": paraboloide,
-    "Hiperboloide": hiperboloide,
-    "Cono": cono,
-    "Cilindro": cilindro,
-    "Cilindro Elíptico": cilindro_eliptico,
-}
-
-# --- Interfaz ---
-st.title("📊 Visualizador Interactivo de Superficies y Curvas de Nivel")
-
-opcion = st.selectbox("Elige una función:", list(funciones.keys()) + ["Personalizada"])
-view = st.radio("Vista:", ["3D", "Curvas de Nivel"])
-
-# Caja de texto para fórmulas
-formula = ""
-if opcion == "Personalizada":
-    formula = st.text_input("Escribe tu fórmula en función de x, y (ej: x**2 + y**2)", "x**2 + y**2")
-
-    # Teclado estilo GeoGebra
-    botones = ["x", "y", "+", "-", "*", "/", "**", "sqrt(", "sin(", "cos(", "tan(", "exp(", "log("]
-    cols = st.columns(len(botones))
-    for i, b in enumerate(botones):
-        if cols[i].button(b):
-            formula += b
-            st.session_state["formula"] = formula
-
-# --- Generación de datos ---
-x = np.linspace(-10, 10, 200)
-y = np.linspace(-10, 10, 200)
+# -------------------------
+# Generar malla
+# -------------------------
+x = np.linspace(-10, 10, 100)
+y = np.linspace(-10, 10, 100)
 X, Y = np.meshgrid(x, y)
 
-if opcion == "Personalizada" and formula:
-    try:
-        Z = eval(formula, {"x": X, "y": Y, "np": np, "sqrt": np.sqrt, 
-                           "sin": np.sin, "cos": np.cos, "tan": np.tan, 
-                           "exp": np.exp, "log": np.log})
-    except Exception as e:
-        st.error(f"Error en la fórmula: {e}")
-        Z = np.zeros_like(X)
-else:
-    Z = funciones[opcion](X, Y)
+f = get_function(st.session_state.expr)
+Z = f(X, Y)
 
-# --- Graficar ---
+# -------------------------
+# Selector de vista
+# -------------------------
+view = st.radio("Selecciona vista:", ["3D", "Curvas de Nivel (2D)"])
+
+fig = go.Figure()
+
 if view == "3D":
-    fig = go.Figure(data=[go.Surface(z=Z, x=x, y=y, colorscale="Viridis")])
+    fig.add_trace(go.Surface(z=Z, x=X, y=Y, colorscale="Viridis"))
     fig.update_layout(
         scene=dict(
-            xaxis=dict(title="X", visible=True),
-            yaxis=dict(title="Y", visible=True),
-            zaxis=dict(title="Z", visible=True),
+            xaxis_title="Eje X",
+            yaxis_title="Eje Y",
+            zaxis_title="Eje Z",
+            xaxis=dict(range=[-10, 10]),
+            yaxis=dict(range=[-10, 10]),
+            zaxis=dict(range=[np.nanmin(Z), np.nanmax(Z)])
         ),
-        width=800, height=700,
-        title=f"Superficie 3D: {opcion}"
+        width=800, height=600
     )
-    st.plotly_chart(fig, use_container_width=True)
 
-elif view == "Curvas de Nivel":
-    fig = go.Figure(data=[go.Contour(
-        z=Z, x=x, y=y,
-        colorscale="Turbo",
-        contours=dict(
-            coloring="lines",
-            showlabels=True
-        )
-    )])
-
-    # Ajuste de ejes en R²
+elif view == "Curvas de Nivel (2D)":
+    fig.add_trace(go.Contour(z=Z, x=x, y=y, colorscale="Viridis"))
     fig.update_layout(
-        width=700, height=600,
-        xaxis=dict(
-            title="Eje X",
-            showgrid=True,
-            zeroline=True,
-            scaleanchor="y"
-        ),
-        yaxis=dict(
-            title="Eje Y",
-            showgrid=True,
-            zeroline=True,
-            scaleratio=1
-        ),
-        title=f"Curvas de Nivel en R²: {opcion}"
+        xaxis_title="Eje X",
+        yaxis_title="Eje Y",
+        width=800, height=600
     )
 
-    st.plotly_chart(fig, use_container_width=True)
+st.plotly_chart(fig, use_container_width=True)
+
 
 
