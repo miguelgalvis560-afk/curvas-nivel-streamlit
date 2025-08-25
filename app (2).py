@@ -22,7 +22,7 @@ def get_function(expr):
 # -------------------------
 # Interfaz
 # -------------------------
-st.title("Visualizador 3D y Curvas de Nivel 📊")
+st.title("Visualizador de Curvas de Nivel 📊")
 
 # -------------------------
 # Diccionario de figuras y sus expresiones
