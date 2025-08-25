@@ -1,10 +1,11 @@
 import streamlit as st
 import numpy as np
 import plotly.graph_objects as go
+import math
 
 st.set_page_config(page_title="Visualizador de Superficies", layout="wide")
 
-# --- Funciones disponibles ---
+# --- Funciones corregidas ---
 def paraboloide(x, y):
     return x**2 + y**2
 
@@ -15,10 +16,16 @@ def cono(x, y):
     return np.sqrt(x**2 + y**2)
 
 def cilindro(x, y):
-    return np.where(x**2 + y**2 <= 25, 10, np.nan)
+    r = 5
+    z2 = r**2 - x**2
+    z2[z2 < 0] = np.nan
+    return np.sqrt(z2)
 
 def cilindro_eliptico(x, y):
-    return np.where((x/3)**2 + (y/2)**2 <= 1, 10, np.nan)
+    a, b, h = 3, 2, 5
+    inside = 1 - (x/a)**2 - (y/b)**2
+    inside[inside < 0] = np.nan
+    return np.sqrt(inside) * h
 
 # Diccionario de funciones
 funciones = {
@@ -26,20 +33,43 @@ funciones = {
     "Hiperboloide": hiperboloide,
     "Cono": cono,
     "Cilindro": cilindro,
-    "Cilindro Elíptico": cilindro_eliptico
+    "Cilindro Elíptico": cilindro_eliptico,
 }
 
 # --- Interfaz ---
 st.title("📊 Visualizador Interactivo de Superficies y Curvas de Nivel")
 
-opcion = st.selectbox("Elige una función:", list(funciones.keys()))
+opcion = st.selectbox("Elige una función:", list(funciones.keys()) + ["Personalizada"])
 view = st.radio("Vista:", ["3D", "Curvas de Nivel"])
 
+# Caja de texto para fórmulas
+formula = ""
+if opcion == "Personalizada":
+    formula = st.text_input("Escribe tu fórmula en función de x, y (ej: x**2 + y**2)", "x**2 + y**2")
+
+    # Teclado estilo GeoGebra
+    botones = ["x", "y", "+", "-", "*", "/", "**", "sqrt(", "sin(", "cos(", "tan(", "exp(", "log("]
+    cols = st.columns(len(botones))
+    for i, b in enumerate(botones):
+        if cols[i].button(b):
+            formula += b
+            st.session_state["formula"] = formula
+
 # --- Generación de datos ---
-x = np.linspace(-10, 10, 100)
-y = np.linspace(-10, 10, 100)
+x = np.linspace(-10, 10, 200)
+y = np.linspace(-10, 10, 200)
 X, Y = np.meshgrid(x, y)
-Z = funciones[opcion](X, Y)
+
+if opcion == "Personalizada" and formula:
+    try:
+        Z = eval(formula, {"x": X, "y": Y, "np": np, "sqrt": np.sqrt, 
+                           "sin": np.sin, "cos": np.cos, "tan": np.tan, 
+                           "exp": np.exp, "log": np.log})
+    except Exception as e:
+        st.error(f"Error en la fórmula: {e}")
+        Z = np.zeros_like(X)
+else:
+    Z = funciones[opcion](X, Y)
 
 # --- Graficar ---
 if view == "3D":
@@ -72,7 +102,7 @@ elif view == "Curvas de Nivel":
             title="Eje X",
             showgrid=True,
             zeroline=True,
-            scaleanchor="y"  # proporción 1:1
+            scaleanchor="y"
         ),
         yaxis=dict(
             title="Eje Y",
