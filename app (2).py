@@ -30,7 +30,7 @@ st.title("Visualizador 3D y Curvas de Nivel 📊")
 figuras_dict = {
     "Personalizada": None,
     "Paraboloide circular: z = x² + y²": "x**2 + y**2",
-    "Paraboloide hiperbólico (silla de montar): z = x**2 - y**2",
+    "Paraboloide hiperbólico (silla de montar): z = x² - y²": "x**2 - y**2",
     "Esfera: z = sqrt(25 - x² - y²)": "np.sqrt(np.maximum(25 - x**2 - y**2, 0))",
     "Cilindro circular: z = sqrt(25 - x²)": "np.sqrt(np.maximum(25 - x**2, 0))",
     "Cilindro elíptico: z = sqrt(25 - (x²/9) - (y²/4))": "np.sqrt(np.maximum(25 - (x**2/9) - (y**2/4), 0))",
@@ -111,6 +111,5 @@ elif view == "Curvas de Nivel (2D)":
 # Mostrar gráfico
 # -------------------------
 st.plotly_chart(fig, use_container_width=True)
-
 
 
