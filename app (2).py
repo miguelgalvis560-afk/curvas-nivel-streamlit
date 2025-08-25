@@ -26,23 +26,34 @@ except Exception as e:
 if view == "3D":
     fig = go.Figure(data=[go.Surface(
         z=Z, x=X, y=Y,
-        colorscale="Viridis",   # Colores claros
+        colorscale="Viridis",
         showscale=True,
         lighting=dict(ambient=0.6, diffuse=0.8, specular=0.5, roughness=0.3)
     )])
-    fig.update_layout(scene_aspectmode="data")
+
+    # Ajustar tamaño y ejes visibles
+    fig.update_layout(
+        width=800, height=700,   # Tamaño más grande
+        scene=dict(
+            aspectmode="cube",   # Relación de aspecto igual
+            xaxis=dict(title="X", visible=True, showgrid=True, zeroline=True),
+            yaxis=dict(title="Y", visible=True, showgrid=True, zeroline=True),
+            zaxis=dict(title="Z", visible=True, showgrid=True, zeroline=True)
+        )
+    )
     st.plotly_chart(fig, use_container_width=True)
 
 elif view == "Curvas de Nivel":
     fig = go.Figure(data=[go.Contour(
         z=Z, x=x, y=y,
-        colorscale="Turbo",   # Paleta colorida
+        colorscale="Turbo",
         contours=dict(
-            coloring="lines",  # Solo líneas
-            showlabels=True    # Mostrar valores
+            coloring="lines",
+            showlabels=True
         )
     )])
     fig.update_layout(
+        width=700, height=600,
         xaxis=dict(scaleanchor="y"),
         yaxis=dict(scaleanchor="x", scaleratio=1),
         title="Curvas de Nivel"
