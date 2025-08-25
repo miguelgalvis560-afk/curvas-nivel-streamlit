@@ -61,7 +61,7 @@ else:
     elif figura == "Hiperboloide de una hoja: z = sqrt(x² + y² - 1)":
         expr = "np.sqrt(x**2 + y**2 - 1)"
     elif figura == "Hiperboloide de dos hojas: z = sqrt(x² + y² + 1)":
-        expr = "np.sqrt(x**2 + y**2 + 1)"
+        expr = "np.sqrt(x**2 + y**2 + 1)":
 
 st.session_state.expr = expr
 
