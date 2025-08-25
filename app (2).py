@@ -94,7 +94,14 @@ if view == "3D":
     )
 
 elif view == "Curvas de Nivel (2D)":
-    fig.add_trace(go.Contour(z=Z, x=x, y=y, colorscale="Viridis"))
+    fig.add_trace(go.Contour(
+        z=Z, x=x, y=y,
+        colorscale="Viridis",
+        contours=dict(
+            coloring="lines"  # 🔹 Solo dibuja las curvas, sin colorear
+        ),
+        line=dict(width=1)   # 🔹 Grosor de las curvas
+    ))
     fig.update_layout(
         xaxis_title="Eje X",
         yaxis_title="Eje Y",
