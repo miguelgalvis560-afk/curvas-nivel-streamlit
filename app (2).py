@@ -48,8 +48,7 @@ if figura == "Personalizada":
 else:
     if figura == "Paraboloide circular: z = x² + y²":
         expr = "x**2 + y**2"
-    elif figura == "Paraboloide hiperbólico (silla de montar): z = x**2 - y**2"
-:
+    elif figura == "Paraboloide hiperbólico (silla de montar): z = x² - y²":
         expr = "x**2 - y**2"
     elif figura == "Esfera: z = sqrt(25 - x² - y²)":
         expr = "np.sqrt(25 - x**2 - y**2)"
@@ -103,7 +102,6 @@ elif view == "Curvas de Nivel (2D)":
     )
 
 st.plotly_chart(fig, use_container_width=True)
-
 
 
 
