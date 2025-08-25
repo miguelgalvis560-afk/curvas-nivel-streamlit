@@ -2,44 +2,56 @@ import streamlit as st
 import numpy as np
 import plotly.graph_objects as go
 
-st.title("Visualización 3D y Curvas de Nivel")
+st.set_page_config(page_title="Visualizador de Superficies", layout="wide")
 
-# Caja de texto para la función
-func_input = st.text_input("Escribe la función f(x,y):", "x**2 + y**2")
+# --- Funciones disponibles ---
+def paraboloide(x, y):
+    return x**2 + y**2
 
-# Botón de selección
-view = st.radio("Elige la vista:", ["3D", "Curvas de Nivel"])
+def hiperboloide(x, y):
+    return x**2 - y**2
 
-# Definir el rango
+def cono(x, y):
+    return np.sqrt(x**2 + y**2)
+
+def cilindro(x, y):
+    return np.where(x**2 + y**2 <= 25, 10, np.nan)
+
+def cilindro_eliptico(x, y):
+    return np.where((x/3)**2 + (y/2)**2 <= 1, 10, np.nan)
+
+# Diccionario de funciones
+funciones = {
+    "Paraboloide": paraboloide,
+    "Hiperboloide": hiperboloide,
+    "Cono": cono,
+    "Cilindro": cilindro,
+    "Cilindro Elíptico": cilindro_eliptico
+}
+
+# --- Interfaz ---
+st.title("📊 Visualizador Interactivo de Superficies y Curvas de Nivel")
+
+opcion = st.selectbox("Elige una función:", list(funciones.keys()))
+view = st.radio("Vista:", ["3D", "Curvas de Nivel"])
+
+# --- Generación de datos ---
 x = np.linspace(-10, 10, 100)
 y = np.linspace(-10, 10, 100)
 X, Y = np.meshgrid(x, y)
+Z = funciones[opcion](X, Y)
 
-# Evaluar la función
-try:
-    Z = eval(func_input, {"x": X, "y": Y, "np": np})
-except Exception as e:
-    st.error(f"Error en la función: {e}")
-    Z = np.zeros_like(X)
-
-# Mostrar el gráfico
+# --- Graficar ---
 if view == "3D":
-    fig = go.Figure(data=[go.Surface(
-        z=Z, x=X, y=Y,
-        colorscale="Viridis",
-        showscale=True,
-        lighting=dict(ambient=0.6, diffuse=0.8, specular=0.5, roughness=0.3)
-    )])
-
-    # Ajustar tamaño y ejes visibles
+    fig = go.Figure(data=[go.Surface(z=Z, x=x, y=y, colorscale="Viridis")])
     fig.update_layout(
-        width=800, height=700,   # Tamaño más grande
         scene=dict(
-            aspectmode="cube",   # Relación de aspecto igual
-            xaxis=dict(title="X", visible=True, showgrid=True, zeroline=True),
-            yaxis=dict(title="Y", visible=True, showgrid=True, zeroline=True),
-            zaxis=dict(title="Z", visible=True, showgrid=True, zeroline=True)
-        )
+            xaxis=dict(title="X", visible=True),
+            yaxis=dict(title="Y", visible=True),
+            zaxis=dict(title="Z", visible=True),
+        ),
+        width=800, height=700,
+        title=f"Superficie 3D: {opcion}"
     )
     st.plotly_chart(fig, use_container_width=True)
 
@@ -52,11 +64,25 @@ elif view == "Curvas de Nivel":
             showlabels=True
         )
     )])
+
+    # Ajuste de ejes en R²
     fig.update_layout(
         width=700, height=600,
-        xaxis=dict(scaleanchor="y"),
-        yaxis=dict(scaleanchor="x", scaleratio=1),
-        title="Curvas de Nivel"
+        xaxis=dict(
+            title="Eje X",
+            showgrid=True,
+            zeroline=True,
+            scaleanchor="y"  # proporción 1:1
+        ),
+        yaxis=dict(
+            title="Eje Y",
+            showgrid=True,
+            zeroline=True,
+            scaleratio=1
+        ),
+        title=f"Curvas de Nivel en R²: {opcion}"
     )
+
     st.plotly_chart(fig, use_container_width=True)
+
 
