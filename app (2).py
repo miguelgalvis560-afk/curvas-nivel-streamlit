@@ -31,14 +31,20 @@ st.sidebar.title("Figuras comunes")
 figura = st.sidebar.selectbox(
     "Selecciona una figura:",
     [
-        "Personalizada",
-        "Paraboloide circular: z = x² + y²",
-        "Paraboloide hiperbólico (silla de montar): z = x² - y²",
-        "Esfera: z = sqrt(25 - x² - y²)",
-        "Cilindro circular: z = sqrt(25 - x²)",
-        "Cilindro elíptico: z = sqrt(25 - (x²/9) - (y²/4))",
-        "Hiperboloide de una hoja: z = sqrt(x² + y² - 1)",
-        "Hiperboloide de dos hojas: z = sqrt(x² + y² + 1)"
+       "Personalizada": lambda x, y: None,
+    "Paraboloide circular: z = x² + y²": lambda x, y: x**2 + y**2,
+    "Paraboloide hiperbólico (silla de montar): z = x² - y²": lambda x, y: x**2 - y**2,
+    "Esfera: z = sqrt(25 - x² - y²)": lambda x, y: np.sqrt(np.maximum(25 - x**2 - y**2, 0)),
+    "Cilindro circular: z = sqrt(25 - x²)": lambda x, y: np.sqrt(np.maximum(25 - x**2, 0)),
+    "Cilindro elíptico: z = sqrt(25 - (x²/9) - (y²/4))": lambda x, y: np.sqrt(np.maximum(25 - (x**2/9) - (y**2/4), 0)),
+    "Hiperboloide de una hoja: z = sqrt(x² + y² - 1)": lambda x, y: np.sqrt(np.maximum(x**2 + y**2 - 1, 0)),
+    "Hiperboloide de dos hojas: z = sqrt(x² + y² + 1)": lambda x, y: np.sqrt(x**2 + y**2 + 1),
+    "Toro: z = sqrt(1 - (sqrt(x² + y²) - 2)²)": lambda x, y: np.sqrt(np.maximum(1 - (np.sqrt(x**2 + y**2) - 2)**2, 0)),
+    "Cono circular: z = sqrt(x² + y²)": lambda x, y: np.sqrt(x**2 + y**2),
+    "Onda senoidal: z = sin(sqrt(x² + y²))": lambda x, y: np.sin(np.sqrt(x**2 + y**2)),
+    "Catenoide: z = cosh(sqrt(x² + y²))": lambda x, y: np.cosh(np.sqrt(x**2 + y**2)),
+    "Elipsoide: z = sqrt(25 - (x²/4) - (y²/9))": lambda x, y: np.sqrt(np.maximum(25 - (x**2/4) - (y**2/9), 0)),
+    "Silla de montar con seno: z = sin(x) - cos(y)": lambda x, y: np.sin(x) - np.cos(y)
     ]
 )
 
