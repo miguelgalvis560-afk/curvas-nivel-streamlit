@@ -104,7 +104,7 @@ if view == "3D":
                 dtick=1
             ),
             yaxis=dict(
-                backgroundcolor="black",
+                backgroundcolor="whait",
                 gridcolor="gray",
                 zerolinecolor="white",
                 tickfont=dict(color="green"),
