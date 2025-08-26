@@ -94,7 +94,7 @@ if view == "3D":
     fig.update_layout(
         scene=dict(
             xaxis=dict(
-                backgroundcolor="black",
+                backgroundcolor="white",
                 gridcolor="gray",
                 zerolinecolor="white",
                 tickfont=dict(color="red"),
@@ -104,7 +104,7 @@ if view == "3D":
                 dtick=1
             ),
             yaxis=dict(
-                backgroundcolor="whait",
+                backgroundcolor="white",
                 gridcolor="gray",
                 zerolinecolor="white",
                 tickfont=dict(color="green"),
@@ -114,7 +114,7 @@ if view == "3D":
                 dtick=1
             ),
             zaxis=dict(
-                backgroundcolor="black",
+                backgroundcolor="white",
                 gridcolor="gray",
                 zerolinecolor="white",
                 tickfont=dict(color="blue"),
@@ -125,8 +125,8 @@ if view == "3D":
             ),
             aspectmode="cube"
         ),
-        paper_bgcolor="black",
-        plot_bgcolor="black"
+        paper_bgcolor="white",
+        plot_bgcolor="white"
     )
 
 elif view == "Curvas de Nivel (2D)":
