@@ -91,45 +91,35 @@ if view == "3D":
     axis_length = 7  
 
     # Layout estilo GeoGebra con números y fondo negro
-       fig.update_layout(
-    scene=dict(
-        xaxis=dict(
-            backgroundcolor="white",
-            gridcolor="lightgray",
-            zerolinecolor="black",
-            tickfont=dict(color="red"),
-            title="",
-            range=[-axis_length, axis_length],
-            tickmode="linear",
-            dtick=1
+           fig.update_layout(
+        scene=dict(
+            xaxis=dict(
+                backgroundcolor="white",
+                gridcolor="lightgray",
+                zerolinecolor="black",
+                showbackground=True,
+                title="X",
+            ),
+            yaxis=dict(
+                backgroundcolor="white",
+                gridcolor="lightgray",
+                zerolinecolor="black",
+                showbackground=True,
+                title="Y",
+            ),
+            zaxis=dict(
+                backgroundcolor="white",
+                gridcolor="lightgray",
+                zerolinecolor="black",
+                showbackground=True,
+                title="Z",
+            ),
         ),
-        yaxis=dict(
-            backgroundcolor="white",
-            gridcolor="lightgray",
-            zerolinecolor="black",
-            tickfont=dict(color="green"),
-            title="",
-            range=[-axis_length, axis_length],
-            tickmode="linear",
-            dtick=1
-        ),
-        zaxis=dict(
-            backgroundcolor="white",
-            gridcolor="lightgray",
-            zerolinecolor="black",
-            tickfont=dict(color="blue"),
-            title="",
-            range=[-axis_length, axis_length],
-            tickmode="linear",
-            dtick=1
-        ),
-        aspectmode="cube"
-    ),
-    paper_bgcolor="white",
-    plot_bgcolor="white"
-)
+        width=1000,
+        height=800,
+    )
 
-
+    st.plotly_chart(fig, use_container_width=False)
 
 elif view == "Curvas de Nivel (2D)":
     fig.add_trace(go.Contour(
