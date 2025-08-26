@@ -91,7 +91,9 @@ if view == "3D":
     axis_length = 7  
 
     # Layout estilo GeoGebra con números y fondo negro
-    fig.update_layout(
+        fig.update_layout(
+    width=900,   # ancho en píxeles
+    height=700,  # alto en píxeles
         scene=dict(
             xaxis=dict(
                 backgroundcolor="white",
