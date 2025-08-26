@@ -80,16 +80,56 @@ view = st.radio("Selecciona vista:", ["3D", "Curvas de Nivel (2D)"])
 fig = go.Figure()
 
 if view == "3D":
-    fig.add_trace(go.Surface(z=Z, x=X, y=Y, colorscale="Viridis"))
+    fig.add_trace(go.Surface(
+        z=Z, x=X, y=Y,
+        colorscale="Viridis",
+        showscale=False,      # Ocultar barra de colores
+        opacity=0.9
+    ))
+
     fig.update_layout(
         scene=dict(
-            xaxis_title="Eje X",
-            yaxis_title="Eje Y",
-            zaxis_title="Eje Z",
-            xaxis=dict(range=[-10, 10]),
-            yaxis=dict(range=[-10, 10]),
+            xaxis=dict(
+                title="Eje X",
+                range=[-10, 10],
+                showgrid=True,
+                zeroline=True,
+                showline=True,
+                mirror=True,
+                backgroundcolor="white",
+                gridcolor="lightgray",
+                zerolinecolor="black"
+            ),
+            yaxis=dict(
+                title="Eje Y",
+                range=[-10, 10],
+                showgrid=True,
+                zeroline=True,
+                showline=True,
+                mirror=True,
+                backgroundcolor="white",
+                gridcolor="lightgray",
+                zerolinecolor="black"
+            ),
+            zaxis=dict(
+                title="Eje Z",
+                showgrid=True,
+                zeroline=True,
+                showline=True,
+                mirror=True,
+                backgroundcolor="white",
+                gridcolor="lightgray",
+                zerolinecolor="black"
+            ),
+            # Cámara estilo GeoGebra
+            camera=dict(
+                eye=dict(x=1.8, y=1.8, z=1.2)  
+            ),
+            aspectmode="cube"  # Escala igual en X, Y, Z
         ),
-        width=800, height=600
+        margin=dict(l=0, r=0, b=0, t=40),
+        width=800, height=600,
+        paper_bgcolor="white"
     )
 
 elif view == "Curvas de Nivel (2D)":
