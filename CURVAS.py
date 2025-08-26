@@ -80,56 +80,34 @@ view = st.radio("Selecciona vista:", ["3D", "Curvas de Nivel (2D)"])
 fig = go.Figure()
 
 if view == "3D":
-    fig.add_trace(go.Surface(
-        z=Z, x=X, y=Y,
-        colorscale="Viridis",
-        showscale=False,
-        opacity=0.9
-    ))
-
-    # Definir longitud de los ejes (como en GeoGebra)
-    axis_length = 7  
-
-    # Layout estilo GeoGebra con números y fondo negro
     fig.update_layout(
         scene=dict(
             xaxis=dict(
-                backgroundcolor="black",
-                gridcolor="gray",
-                zerolinecolor="white",
-                tickfont=dict(color="red"),
-                title="",
-                range=[-axis_length, axis_length],
-                tickmode="linear",
-                dtick=1
+                backgroundcolor="white",
+                gridcolor="lightgray",
+                zerolinecolor="black",
+                showbackground=True,
+                title="X",
             ),
             yaxis=dict(
-                backgroundcolor="black",
-                gridcolor="gray",
-                zerolinecolor="white",
-                tickfont=dict(color="green"),
-                title="",
-                range=[-axis_length, axis_length],
-                tickmode="linear",
-                dtick=1
+                backgroundcolor="white",
+                gridcolor="lightgray",
+                zerolinecolor="black",
+                showbackground=True,
+                title="Y",
             ),
             zaxis=dict(
-                backgroundcolor="black",
-                gridcolor="gray",
-                zerolinecolor="white",
-                tickfont=dict(color="blue"),
-                title="",
-                range=[-axis_length, axis_length],
-                tickmode="linear",
-                dtick=1
+                backgroundcolor="white",
+                gridcolor="lightgray",
+                zerolinecolor="black",
+                showbackground=True,
+                title="Z",
             ),
-            aspectmode="cube"
         ),
-        paper_bgcolor="black",
-        plot_bgcolor="black"
+        width=1000,
+        height=800,
     )
 
-    st.plotly_chart(fig, use_container_width=False)
 elif view == "Curvas de Nivel (2D)":
     fig.add_trace(go.Contour(
         z=Z, x=x, y=y,
