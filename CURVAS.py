@@ -83,7 +83,7 @@ if view == "3D":
     fig.add_trace(go.Surface(
         z=Z, x=X, y=Y,
         colorscale="Viridis",
-        showscale=False,      # Ocultar barra de colores
+        showscale=False,
         opacity=0.9
     ))
 
@@ -96,9 +96,13 @@ if view == "3D":
                 zeroline=True,
                 showline=True,
                 mirror=True,
+                showticklabels=True,
+                tickvals=list(range(-10, 11, 2)),  # marcas cada 2
+                tickfont=dict(size=10, color="black"),
                 backgroundcolor="white",
                 gridcolor="lightgray",
-                zerolinecolor="black"
+                zerolinecolor="black",
+                linecolor="black"
             ),
             yaxis=dict(
                 title="Eje Y",
@@ -107,9 +111,13 @@ if view == "3D":
                 zeroline=True,
                 showline=True,
                 mirror=True,
+                showticklabels=True,
+                tickvals=list(range(-10, 11, 2)),
+                tickfont=dict(size=10, color="black"),
                 backgroundcolor="white",
                 gridcolor="lightgray",
-                zerolinecolor="black"
+                zerolinecolor="black",
+                linecolor="black"
             ),
             zaxis=dict(
                 title="Eje Z",
@@ -117,15 +125,18 @@ if view == "3D":
                 zeroline=True,
                 showline=True,
                 mirror=True,
+                showticklabels=True,
+                tickvals=list(range(-10, 11, 2)),
+                tickfont=dict(size=10, color="black"),
                 backgroundcolor="white",
                 gridcolor="lightgray",
-                zerolinecolor="black"
+                zerolinecolor="black",
+                linecolor="black"
             ),
-            # Cámara estilo GeoGebra
             camera=dict(
                 eye=dict(x=1.8, y=1.8, z=1.2)  
             ),
-            aspectmode="cube"  # Escala igual en X, Y, Z
+            aspectmode="cube"
         ),
         margin=dict(l=0, r=0, b=0, t=40),
         width=800, height=600,
