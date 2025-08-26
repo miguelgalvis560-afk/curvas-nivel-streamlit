@@ -104,8 +104,11 @@ elif view == "Curvas de Nivel (2D)":
     fig.update_layout(
         xaxis_title="Eje X",
         yaxis_title="Eje Y",
-        width=800, height=600
+        width=800, height=600,
+        xaxis=dict(showgrid=True, zeroline=True),  # Cuadrícula en eje X
+        yaxis=dict(showgrid=True, zeroline=True)   # Cuadrícula en eje Y
     )
+
 
 # -------------------------
 # Mostrar gráfico
