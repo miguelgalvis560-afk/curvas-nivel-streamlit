@@ -92,8 +92,6 @@ if view == "3D":
 
     # Layout estilo GeoGebra con números y fondo negro
         fig.update_layout(
-    width=900,   # ancho en píxeles
-    height=700,  # alto en píxeles
         scene=dict(
             xaxis=dict(
                 backgroundcolor="white",
