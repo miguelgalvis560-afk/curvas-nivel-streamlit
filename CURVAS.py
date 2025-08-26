@@ -20,7 +20,7 @@ st.title("Visualizador 3D Y Curvas de Nivel 📊")
 figuras_dict = {
     "Personalizada": None,
     "Paraboloide circular: z = x² + y²": "x**2 + y**2",
-    "Paraboloide hiperbólico (silla de montar): z = x**2 - y**2",
+    "Paraboloide hiperbólico (silla de montar): z = x**2 - y**2": "x**2 - y**2",
     "Esfera: z = np.sqrt(np.maximum(25 - x**2 - y**2, 0))": "np.sqrt(np.maximum(25 - x**2 - y**2, 0))",
     "Cilindro circular: z = np.sqrt(np.maximum(25 - x**2, 0))": "np.sqrt(np.maximum(25 - x**2, 0))",
     "Cilindro elíptico: z = np.sqrt(np.maximum(25 - (x**2/9) - (y**2/4), 0))": "np.sqrt(np.maximum(25 - (x**2/9) - (y**2/4), 0))",
