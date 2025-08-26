@@ -75,11 +75,14 @@ Z = f(X, Y)
 # -------------------------
 # Selector de vista
 # -------------------------
+# Selector de vista
+# -------------------------
 view = st.radio("Selecciona vista:", ["3D", "Curvas de Nivel (2D)"])
 
 fig = go.Figure()
 
 if view == "3D":
+    # Superficie 3D
     fig.add_trace(go.Surface(z=Z, x=X, y=Y, colorscale="Viridis"))
     fig.update_layout(
         scene=dict(
@@ -91,6 +94,53 @@ if view == "3D":
         ),
         width=800, height=600
     )
+
+elif view == "Curvas de Nivel (2D)":
+    # Animación: Curvas "cayendo" al plano XY
+    frames = []
+    steps = 20  # número de pasos de animación
+    for k in range(steps):
+        factor = 1 - (k / (steps - 1))  # de 1 → 0
+        Z_temp = Z * factor
+        frames.append(go.Frame(
+            data=[go.Contour(
+                z=Z_temp, x=x, y=y,
+                colorscale="Viridis",
+                contours=dict(coloring="lines"),
+                line=dict(width=1)
+            )]
+        ))
+
+    # Estado inicial (curvas arriba)
+    fig.add_trace(go.Contour(
+        z=Z, x=x, y=y,
+        colorscale="Viridis",
+        contours=dict(coloring="lines"),
+        line=dict(width=1)
+    ))
+
+    fig.update(frames=frames)
+
+    # Botones de animación
+    fig.update_layout(
+        xaxis_title="Eje X",
+        yaxis_title="Eje Y",
+        width=800, height=600,
+        updatemenus=[{
+            "type": "buttons",
+            "showactive": False,
+            "buttons": [{
+                "label": "▶ Play",
+                "method": "animate",
+                "args": [None, {"frame": {"duration": 80, "redraw": True}, "fromcurrent": True}]
+            }]
+        }]
+    )
+
+# -------------------------
+# Mostrar gráfico
+# -------------------------
+st.plotly_chart(fig, use_container_width=True)
 
 elif view == "Curvas de Nivel (2D)":
     fig.add_trace(go.Contour(
