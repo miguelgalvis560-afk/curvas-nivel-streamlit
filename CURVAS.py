@@ -87,50 +87,47 @@ if view == "3D":
         opacity=0.9
     ))
 
-   # -------------------------
-# Layout estilo GeoGebra con números
-# -------------------------
-layout = go.Layout(
-    scene=dict(
-        xaxis=dict(
-            backgroundcolor="black",
-            gridcolor="gray",
-            zerolinecolor="white",
-            tickfont=dict(color="red"),
-            title="",
-            range=[-axis_length, axis_length],
-            tickmode="linear",
-            tick0=-axis_length,
-            dtick=1  # intervalo de 1 en 1
-        ),
-        yaxis=dict(
-            backgroundcolor="black",
-            gridcolor="gray",
-            zerolinecolor="white",
-            tickfont=dict(color="green"),
-            title="",
-            range=[-axis_length, axis_length],
-            tickmode="linear",
-            tick0=-axis_length,
-            dtick=1
-        ),
-        zaxis=dict(
-            backgroundcolor="black",
-            gridcolor="gray",
-            zerolinecolor="white",
-            tickfont=dict(color="blue"),
-            title="",
-            range=[-axis_length, axis_length],
-            tickmode="linear",
-            tick0=-axis_length,
-            dtick=1
-        ),
-        aspectmode="cube"
-    ),
-    paper_bgcolor="black",
-    plot_bgcolor="black",
-)
+    # Definir longitud de los ejes (como en GeoGebra)
+    axis_length = 7  
 
+    # Layout estilo GeoGebra con números y fondo negro
+    fig.update_layout(
+        scene=dict(
+            xaxis=dict(
+                backgroundcolor="black",
+                gridcolor="gray",
+                zerolinecolor="white",
+                tickfont=dict(color="red"),
+                title="",
+                range=[-axis_length, axis_length],
+                tickmode="linear",
+                dtick=1
+            ),
+            yaxis=dict(
+                backgroundcolor="black",
+                gridcolor="gray",
+                zerolinecolor="white",
+                tickfont=dict(color="green"),
+                title="",
+                range=[-axis_length, axis_length],
+                tickmode="linear",
+                dtick=1
+            ),
+            zaxis=dict(
+                backgroundcolor="black",
+                gridcolor="gray",
+                zerolinecolor="white",
+                tickfont=dict(color="blue"),
+                title="",
+                range=[-axis_length, axis_length],
+                tickmode="linear",
+                dtick=1
+            ),
+            aspectmode="cube"
+        ),
+        paper_bgcolor="black",
+        plot_bgcolor="black"
+    )
 
 elif view == "Curvas de Nivel (2D)":
     fig.add_trace(go.Contour(
