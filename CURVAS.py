@@ -91,35 +91,44 @@ if view == "3D":
     axis_length = 7  
 
     # Layout estilo GeoGebra con números y fondo negro
-        fig.update_layout(
+       fig.update_layout(
     scene=dict(
         xaxis=dict(
             backgroundcolor="white",
             gridcolor="lightgray",
             zerolinecolor="black",
-            showbackground=True,
-            title="X",
+            tickfont=dict(color="red"),
+            title="",
+            range=[-axis_length, axis_length],
+            tickmode="linear",
+            dtick=1
         ),
         yaxis=dict(
             backgroundcolor="white",
             gridcolor="lightgray",
             zerolinecolor="black",
-            showbackground=True,
-            title="Y",
+            tickfont=dict(color="green"),
+            title="",
+            range=[-axis_length, axis_length],
+            tickmode="linear",
+            dtick=1
         ),
         zaxis=dict(
             backgroundcolor="white",
             gridcolor="lightgray",
             zerolinecolor="black",
-            showbackground=True,
-            title="Z",
+            tickfont=dict(color="blue"),
+            title="",
+            range=[-axis_length, axis_length],
+            tickmode="linear",
+            dtick=1
         ),
+        aspectmode="cube"
     ),
-    width=1000,   # Ancho de la figura
-    height=800,   # Alto de la figura
+    paper_bgcolor="white",
+    plot_bgcolor="white"
 )
 
-st.plotly_chart(fig, use_container_width=False)
 
 
 elif view == "Curvas de Nivel (2D)":
