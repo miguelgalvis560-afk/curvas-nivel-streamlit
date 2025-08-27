@@ -104,8 +104,8 @@ if view == "3D":
                 title="Z",
             ),
         ),
-        width=900,
-        height=800,
+        width=1000,
+        height=1000,
     )
 
 elif view == "Curvas de Nivel (2D)":
