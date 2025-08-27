@@ -80,32 +80,53 @@ view = st.radio("Selecciona vista:", ["3D", "Curvas de Nivel (2D)"])
 fig = go.Figure()
 
 if view == "3D":
+    fig.add_trace(go.Surface(
+        z=Z, x=X, y=Y,
+        colorscale="Viridis",
+        showscale=False,
+        opacity=0.9
+    ))
+
+    # Definir longitud de los ejes (como en GeoGebra)
+    axis_length = 7  
+
+    # Layout estilo GeoGebra con números y fondo negro
     fig.update_layout(
         scene=dict(
             xaxis=dict(
-                backgroundcolor="white",
-                gridcolor="lightgray",
-                zerolinecolor="black",
-                showbackground=True,
-                title="X",
+                backgroundcolor="black",
+                gridcolor="gray",
+                zerolinecolor="white",
+                tickfont=dict(color="red"),
+                title="",
+                range=[-axis_length, axis_length],
+                tickmode="linear",
+                dtick=1
             ),
             yaxis=dict(
-                backgroundcolor="white",
-                gridcolor="lightgray",
-                zerolinecolor="black",
-                showbackground=True,
-                title="Y",
+                backgroundcolor="black",
+                gridcolor="gray",
+                zerolinecolor="white",
+                tickfont=dict(color="green"),
+                title="",
+                range=[-axis_length, axis_length],
+                tickmode="linear",
+                dtick=1
             ),
             zaxis=dict(
-                backgroundcolor="white",
-                gridcolor="lightgray",
-                zerolinecolor="black",
-                showbackground=True,
-                title="Z",
+                backgroundcolor="black",
+                gridcolor="gray",
+                zerolinecolor="white",
+                tickfont=dict(color="blue"),
+                title="",
+                range=[-axis_length, axis_length],
+                tickmode="linear",
+                dtick=1
             ),
+            aspectmode="cube"
         ),
-        width=1000,
-        height=1000,
+        paper_bgcolor="black",
+        plot_bgcolor="black"
     )
 
 elif view == "Curvas de Nivel (2D)":
