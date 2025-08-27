@@ -104,7 +104,7 @@ if view == "3D":
                 title="Z",
             ),
         ),
-        width=1000,
+        width=900,
         height=800,
     )
 
