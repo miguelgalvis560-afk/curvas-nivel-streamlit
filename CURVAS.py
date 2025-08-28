@@ -92,42 +92,45 @@ if view == "3D":
 
     # Layout estilo GeoGebra con números y fondo negro
     fig.update_layout(
-        scene=dict(
-            xaxis=dict(
-                backgroundcolor="black",
-                gridcolor="gray",
-                zerolinecolor="white",
-                tickfont=dict(color="red"),
-                title="",
-                range=[-axis_length, axis_length],
-                tickmode="linear",
-                dtick=1
-            ),
-            yaxis=dict(
-                backgroundcolor="black",
-                gridcolor="gray",
-                zerolinecolor="white",
-                tickfont=dict(color="green"),
-                title="",
-                range=[-axis_length, axis_length],
-                tickmode="linear",
-                dtick=1
-            ),
-            zaxis=dict(
-                backgroundcolor="black",
-                gridcolor="gray",
-                zerolinecolor="white",
-                tickfont=dict(color="blue"),
-                title="",
-                range=[-axis_length, axis_length],
-                tickmode="linear",
-                dtick=1
-            ),
-            aspectmode="cube"
+    scene=dict(
+        xaxis=dict(
+            backgroundcolor="black",
+            gridcolor="gray",
+            zerolinecolor="white",
+            tickfont=dict(color="red"),
+            title="",
+            range=[-axis_length, axis_length],
+            tickmode="linear",
+            dtick=1
         ),
-        paper_bgcolor="black",
-        plot_bgcolor="black"
-    )
+        yaxis=dict(
+            backgroundcolor="black",
+            gridcolor="gray",
+            zerolinecolor="white",
+            tickfont=dict(color="green"),
+            title="",
+            range=[-axis_length, axis_length],
+            tickmode="linear",
+            dtick=1
+        ),
+        zaxis=dict(
+            backgroundcolor="black",
+            gridcolor="gray",
+            zerolinecolor="white",
+            tickfont=dict(color="blue"),
+            title="",
+            range=[-axis_length, axis_length],
+            tickmode="linear",
+            dtick=1
+        ),
+        aspectmode="manual",  # Modo manual para controlar proporciones
+        aspectratio=dict(x=1, y=1, z=1)  # Hace que se vea como un cubo (GeoGebra style)
+    ),
+    paper_bgcolor="black",
+    plot_bgcolor="black",
+    width=1000,   # ancho de la gráfica
+    height=800    # alto de la gráfica
+)
 
 
 elif view == "Curvas de Nivel (2D)":
