@@ -116,12 +116,12 @@ if view == "3D":
     height=800    # alto de gráfica
 )
 
-elif view == "Curvas de Nivel Plano XY":
+elif view == "Curvas de Nivel (2D)":
     fig.add_trace(go.Contour(
         z=Z, x=x, y=y,
         colorscale="Viridis",
         contours=dict(
-            coloring="lines" 
+            coloring="lines"  # Solo dibuja las curvas
         ),
         line=dict(width=1)
     ))
@@ -131,6 +131,7 @@ elif view == "Curvas de Nivel Plano XY":
         width=800, height=600,
         xaxis=dict(showgrid=True, zeroline=True),  # Cuadrícula en eje X
         yaxis=dict(showgrid=True, zeroline=True)   # Cuadrícula en eje Y
+    
     )
 
 
