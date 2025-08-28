@@ -2,15 +2,11 @@ import streamlit as st
 import numpy as np
 import plotly.graph_objects as go
 
-# -------------------------
-# Inicializar session_state
-# -------------------------
+
 if "expr" not in st.session_state:
     st.session_state.expr = "x**2 + y**2"
 
-# -------------------------
-# Función para evaluar la expresión
-# -------------------------
+
 def get_function(expr):
     def func(x, y):
         try:
@@ -19,14 +15,10 @@ def get_function(expr):
             return np.nan
     return func
 
-# -------------------------
-# Interfaz
-# -------------------------
+
 st.title("Visualizador de Curvas de Nivel 📊")
 
-# -------------------------
-# Diccionario de figuras y sus expresiones
-# -------------------------
+
 figuras_dict = {
     "Personalizada": None,
     "Paraboloide circular: z = x² + y²": "x**2 + y**2",
@@ -44,15 +36,11 @@ figuras_dict = {
     "Silla de montar con seno: z = sin(x) - cos(y)": "np.sin(x) - np.cos(y)"
 }
 
-# -------------------------
-# Sidebar: selección de figura
-# -------------------------
+
 st.sidebar.title("Figuras comunes")
 figura = st.sidebar.selectbox("Selecciona una figura:", list(figuras_dict.keys()))
 
-# -------------------------
-# Asignar expresión según selección
-# -------------------------
+
 if figura == "Personalizada":
     expr = st.text_area("Escribe tu función en términos de x y y:", st.session_state.expr, height=50)
     if expr != st.session_state.expr:
@@ -62,9 +50,7 @@ else:
     expr = figuras_dict[figura]
     st.session_state.expr = expr
 
-# -------------------------
-# Generar malla
-# -------------------------
+
 x = np.linspace(-10, 10, 200)
 y = np.linspace(-10, 10, 200)
 X, Y = np.meshgrid(x, y)
