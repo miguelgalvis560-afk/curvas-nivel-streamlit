@@ -72,9 +72,7 @@ X, Y = np.meshgrid(x, y)
 f = get_function(st.session_state.expr)
 Z = f(X, Y)
 
-# -------------------------
-# Selector de vista
-# -------------------------
+
 view = st.radio("Selecciona vista:", ["3D", "Curvas de Nivel (2D)"])
 
 fig = go.Figure()
@@ -87,10 +85,10 @@ if view == "3D":
         opacity=0.9
     ))
 
-    # Definir longitud de los ejes (como en GeoGebra)
+    
     axis_length = 7  
 
-    # Layout estilo GeoGebra con números y fondo negro
+   
     fig.update_layout(
     scene=dict(
         xaxis=dict(
@@ -123,21 +121,21 @@ if view == "3D":
             tickmode="linear",
             dtick=1
         ),
-        aspectmode="manual",  # Modo manual para controlar proporciones
-        aspectratio=dict(x=1, y=1, z=1)  # Hace que se vea como un cubo (GeoGebra style)
+        aspectmode="manual", 
+        aspectratio=dict(x=1, y=1, z=1) 
     ),
     paper_bgcolor="black",
     plot_bgcolor="black",
-    width=1000,   # ancho de la gráfica
-    height=800    # alto de la gráfica
+    width=1000,   # ancho de  gráfica
+    height=800    # alto de gráfica
 )
 
-elif view == "Curvas de Nivel (2D)":
+elif view == "Curvas de Nivel Plano XY":
     fig.add_trace(go.Contour(
         z=Z, x=x, y=y,
         colorscale="Viridis",
         contours=dict(
-            coloring="lines"  # Solo dibuja las curvas
+            coloring="lines" 
         ),
         line=dict(width=1)
     ))
@@ -150,9 +148,6 @@ elif view == "Curvas de Nivel (2D)":
     )
 
 
-# -------------------------
-# Mostrar gráfico
-# -------------------------
 st.plotly_chart(fig, use_container_width=True)
 
 
