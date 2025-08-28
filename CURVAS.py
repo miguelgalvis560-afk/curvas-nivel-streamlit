@@ -123,36 +123,15 @@ if view == "3D":
             tickmode="linear",
             dtick=1
         ),
-        aspectmode="cube",
-        annotations=[
-            # Etiqueta X
-            dict(showarrow=False, x=axis_length, y=0, z=0,
-                 text="X", font=dict(color="red", size=16)),
-            # Etiqueta Y
-            dict(showarrow=False, x=0, y=axis_length, z=0,
-                 text="Y", font=dict(color="green", size=16)),
-            # Etiqueta Z
-            dict(showarrow=False, x=0, y=0, z=axis_length,
-                 text="Z", font=dict(color="blue", size=16)),
-        ]
+        aspectmode="manual",  # Modo manual para controlar proporciones
+        aspectratio=dict(x=1, y=1, z=1)  # Hace que se vea como un cubo (GeoGebra style)
     ),
     paper_bgcolor="black",
-    plot_bgcolor="black"
+    plot_bgcolor="black",
+    width=1000,   # ancho de la gráfica
+    height=800    # alto de la gráfica
 )
 
-# Ejes coordenados tipo GeoGebra
-fig.add_trace(go.Scatter3d(
-    x=[-axis_length, axis_length], y=[0, 0], z=[0, 0],
-    mode="lines", line=dict(color="red", width=6), name="Eje X"
-))
-fig.add_trace(go.Scatter3d(
-    x=[0, 0], y=[-axis_length, axis_length], z=[0, 0],
-    mode="lines", line=dict(color="green", width=6), name="Eje Y"
-))
-fig.add_trace(go.Scatter3d(
-    x=[0, 0], y=[0, 0], z=[-axis_length, axis_length],
-    mode="lines", line=dict(color="blue", width=6), name="Eje Z"
-))
 elif view == "Curvas de Nivel (2D)":
     fig.add_trace(go.Contour(
         z=Z, x=x, y=y,
