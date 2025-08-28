@@ -128,7 +128,7 @@ if view == "3D":
     ),
     paper_bgcolor="black",
     plot_bgcolor="black",
-    width=1000,   # ancho de la gráfica
+    width=900,   # ancho de la gráfica
     height=800    # alto de la gráfica
 )
 
