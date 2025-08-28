@@ -153,9 +153,6 @@ fig.add_trace(go.Scatter3d(
     x=[0, 0], y=[0, 0], z=[-axis_length, axis_length],
     mode="lines", line=dict(color="blue", width=6), name="Eje Z"
 ))
-
-
-
 elif view == "Curvas de Nivel (2D)":
     fig.add_trace(go.Contour(
         z=Z, x=x, y=y,
